@@ -21,6 +21,7 @@ int main(void){
 	struct sockaddr_un client_address;
 
 	// register SIGINT handler for clean-up process
+	// kill the server by CTRL^C
 	if( signal(SIGINT, sigint_handler) == SIG_ERR ){
 		fprintf(stderr, "Cannot handle SIGINT!!!\n");
 		exit(EXIT_FAILURE);
