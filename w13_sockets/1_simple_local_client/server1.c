@@ -4,12 +4,27 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
+
+int server_sockfd;
+
+static void sigint_handler(int signo){
+	printf("Prepping to exit...\n");
+	close(server_sockfd);
+	exit(EXIT_SUCCESS);
+}
 
 int main(void){
-	int server_sockfd, client_sockfd;
+	int client_sockfd;
 	int server_len, client_len;
 	struct sockaddr_un server_address;
 	struct sockaddr_un client_address;
+
+	// register SIGINT handler for clean-up process
+	if( signal(SIGINT, sigint_handler) == SIG_ERR ){
+		fprintf(stderr, "Cannot handle SIGINT!!!\n");
+		exit(EXIT_FAILURE);
+	}
 
 	// remove any old sockets and creates an unnamed socket for the server
 	unlink("server_socket");
@@ -39,5 +54,7 @@ int main(void){
 		write(client_sockfd, &ch, 1);
 		close(client_sockfd);
 	}
+
+	// will never reach here...
 	return 0;
 }
