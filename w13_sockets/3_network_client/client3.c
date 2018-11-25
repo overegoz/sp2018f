@@ -34,6 +34,7 @@ int main(void){
 	// read and write via sockfd
 	write(sockfd, &ch, 1);
 	read(sockfd, &ch, 1);
+	sleep(1);
 	printf("[client] msg from server = %c\n", ch);
 	close(sockfd);
 

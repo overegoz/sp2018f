@@ -12,6 +12,7 @@ int server_sockfd;
 static void sigint_handler(int signo){
 	printf("Prepping to exit...\n");
 	close(server_sockfd);
+	fflush(stdout);
 	exit(EXIT_SUCCESS);
 }
 
@@ -43,7 +44,7 @@ int main(void){
 	listen(server_sockfd, 5);
 	while(1){
 		char ch;
-		printf("server waiting\n");
+		printf("[Server] server waiting\n");
 		
 		// accept a connection
 		client_len = sizeof(client_address);
@@ -53,6 +54,7 @@ int main(void){
 		
 		// read and write to client on client_sockfd
 		read(client_sockfd, &ch, 1);
+		printf("[Server] msg rcvd from client: %c\n", ch);
 		ch++;
 		write(client_sockfd, &ch, 1);
 		close(client_sockfd);
