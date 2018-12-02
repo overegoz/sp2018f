@@ -55,8 +55,7 @@ int main(void){
 							   (struct sockaddr *)&client_address, 
 							   &client_len);
 	
-		if( fork() == 0 ) { // chile
-			
+		if( fork() == 0 ) { // child
 			// read and write to client on client_sockfd
 			read(client_sockfd, &ch, 1);
 			sleep(1); // just for demonstration 
