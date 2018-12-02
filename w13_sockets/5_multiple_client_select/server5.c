@@ -64,7 +64,7 @@ int main(void){
 		testfds = readfds;
 		printf("[Server] server waiting\n");
 		
-		result = select(FD_SETSIZE,
+		result = select(FD_SETSIZE, // 1024 by default
 						&testfds,
 						(fd_set *) 0, // I don't care
 						(fd_set *) 0,
@@ -83,23 +83,23 @@ int main(void){
 					client_sockfd = accept(server_sockfd, 
 									   (struct sockaddr *)&client_address, 
 									   &client_len);
-					FD_SET(client_sockfd, &readfds);
+					FD_SET(client_sockfd, &readfds); // add the fd to readfds
 					printf("[server] adding client on fd %d\n", fd);
 				}
 				else {
 					ioctl(fd, FIONREAD, &nread);
 
-					if( nread == 0 ) {
+					if( nread == 0 ) { // client terminated the connection
 						close(fd);
-						FD_CLR(fd, &readfds);
+						FD_CLR(fd, &readfds); // remove it from the set
 						printf("[server] removing client on fd %d\n", fd);
 					} 
-					else {
-						read(fd, &ch, 1);
-						sleep(1);
+					else { // client sent something
+						read(fd, &ch, 1); // read!
+						sleep(1); // just for demonstration
 						printf("[server] serving client on fd %d\n", fd);
 						ch++;
-						write(fd, &ch, 1);
+						write(fd, &ch, 1); // write babck to the client
 					}
 				}
 			}
