@@ -34,8 +34,8 @@ int main(void){
 	// name & configure the server socket
 	// - used 'inet_addr()' to convert text IP addr to the right form
 	server_address.sin_family = AF_INET;
-	server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
-	server_address.sin_port = 9734; // can set to INADDR_ANY
+	server_address.sin_addr.s_addr = inet_addr("127.0.0.1"); // or INADDR_ANY
+	server_address.sin_port = 9734; 
 	server_len = sizeof(server_address);
 	bind(server_sockfd, (struct sockaddr *)&server_address, server_len);
 	
