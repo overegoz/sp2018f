@@ -1,7 +1,9 @@
-all: gtk1
+all: gtkEx1
 
-gtk1: gtk1.c
-	gcc gtk1.c -o gtk1 `pkg-config --cflags --libs gtk+-2.0`
+gtkEx1: gtkEx1.c
+	gcc `pkg-config --cflags gtk+-3.0` -o gtkEx1 gtkEx1.c `pkg-config --libs gtk+-3.0`
 
 clean:
-	rm gtk1
+	rm gtkEx1
+
+
